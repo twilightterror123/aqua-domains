@@ -3,50 +3,96 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>AQUA Domains</title>
-<meta name="description" content="AQUA Domains – Subdomain Manager für eigene Domains und Vercel-Projekte.">
+<title>AQUA Domains — Hosting Dashboard</title>
+<meta name="description" content="AQUA Domains – Projekte deployen und eigene Domains mit Vercel verbinden.">
 <style>
-:root{--bg:#04080c;--panel:#091119;--line:#15303d;--cyan:#00e5ff;--text:#ecfbff;--muted:#78919e}
+:root{--bg:#03070a;--panel:#081118;--panel2:#0b1720;--line:#15313d;--cyan:#00e5ff;--text:#ecfbff;--muted:#78919e;--ok:#55f2a5;--danger:#ff6578}
 *{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(900px 500px at 50% -10%,#07343d 0,transparent 65%),var(--bg);color:var(--text);font:15px Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
-main{width:min(980px,calc(100% - 32px));margin:auto;padding:70px 0}.brand{display:inline-flex;align-items:center;gap:10px;color:var(--cyan);font-weight:900;letter-spacing:4px;font-size:13px}.dot{width:9px;height:9px;border-radius:50%;background:var(--cyan);box-shadow:0 0 22px var(--cyan)}
-h1{font-size:clamp(42px,8vw,78px);line-height:.95;margin:18px 0 14px;letter-spacing:-4px}p{color:var(--muted);line-height:1.7}.hero p{max-width:680px;font-size:17px}.panel{margin-top:35px;padding:26px;border:1px solid var(--line);border-radius:24px;background:linear-gradient(180deg,#0a141c,#071017);box-shadow:0 25px 80px #0009}.grid{display:grid;grid-template-columns:1fr 150px;gap:12px}.field{margin-bottom:18px}label{display:block;margin-bottom:8px;font-weight:700;font-size:13px;color:#b7d5dd}input,select{width:100%;border:1px solid #1a3b49;background:#050c12;color:var(--text);padding:15px;border-radius:12px;font:inherit;outline:0}input:focus,select:focus{border-color:var(--cyan);box-shadow:0 0 0 3px #00e5ff14}button{width:100%;padding:15px;border:0;border-radius:12px;background:var(--cyan);color:#001014;font-weight:900;font-size:15px;cursor:pointer}button:hover{filter:brightness(1.08);transform:translateY(-1px)}.result{display:none;margin-top:20px;padding:18px;border:1px solid #1b5665;border-radius:15px;background:#06141a}.result.show{display:block}.domain{font-size:23px;color:var(--cyan);word-break:break-all}.copy{margin-top:12px;background:#10232c;color:#dffaff;border:1px solid #214653}.note{margin-top:22px;padding:15px;border-radius:14px;border:1px solid #3b3518;background:#151408;color:#d6ca8d;font-size:13px;line-height:1.6}.features{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}.feature{padding:16px;border:1px solid var(--line);border-radius:15px;background:#071017}.feature b{display:block;margin-bottom:5px}.feature span{color:var(--muted);font-size:13px}@media(max-width:650px){main{padding:40px 0}.grid,.features{grid-template-columns:1fr}h1{letter-spacing:-2px}}
+main{width:min(1100px,calc(100% - 32px));margin:auto;padding:42px 0 70px}.top{display:flex;align-items:center;justify-content:space-between;gap:20px}.brand{display:flex;align-items:center;gap:10px;color:var(--cyan);font-weight:900;letter-spacing:4px;font-size:13px}.dot{width:9px;height:9px;border-radius:50%;background:var(--cyan);box-shadow:0 0 22px var(--cyan)}.status{border:1px solid var(--line);background:#071017;padding:9px 12px;border-radius:999px;color:var(--muted);font-size:12px}.status i{display:inline-block;width:7px;height:7px;border-radius:50%;background:#77848a;margin-right:7px}.status.ok i{background:var(--ok);box-shadow:0 0 12px var(--ok)}
+h1{font-size:clamp(42px,8vw,78px);line-height:.95;margin:55px 0 14px;letter-spacing:-4px}.hero p{max-width:720px;font-size:17px;color:var(--muted);line-height:1.7}.tabs{display:flex;gap:8px;margin:32px 0 14px}.tab{width:auto;padding:11px 15px;background:#071017;color:#9bb6bf;border:1px solid var(--line)}.tab.active{background:#0b222b;color:var(--cyan);border-color:#1b5665}.panel{padding:26px;border:1px solid var(--line);border-radius:24px;background:linear-gradient(180deg,#0a141c,#071017);box-shadow:0 25px 80px #0009}.view{display:none}.view.active{display:block}.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.field{margin-bottom:18px}label{display:block;margin-bottom:8px;font-weight:800;font-size:12px;letter-spacing:.5px;color:#b7d5dd}input,select,textarea{width:100%;border:1px solid #1a3b49;background:#050c12;color:var(--text);padding:14px;border-radius:12px;font:inherit;outline:0}textarea{min-height:150px;resize:vertical;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px}input:focus,select:focus,textarea:focus{border-color:var(--cyan);box-shadow:0 0 0 3px #00e5ff14}button{padding:14px 17px;border:0;border-radius:12px;background:var(--cyan);color:#001014;font-weight:900;font-size:14px;cursor:pointer}button:hover{filter:brightness(1.08);transform:translateY(-1px)}button.secondary{background:#10232c;color:#dffaff;border:1px solid #214653}.actions{display:flex;gap:10px;flex-wrap:wrap}.result{display:none;margin-top:18px;padding:17px;border:1px solid #1b5665;border-radius:15px;background:#06141a}.result.show{display:block}.domain{font-size:22px;color:var(--cyan);word-break:break-all}.small{font-size:13px;color:var(--muted);line-height:1.6}.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}.card{padding:18px;border:1px solid var(--line);border-radius:16px;background:#071017}.card b{display:block;margin-bottom:7px}.card span{color:var(--muted);font-size:13px;line-height:1.5}.notice{margin-top:18px;padding:15px;border-radius:14px;border:1px solid #3b3518;background:#151408;color:#d6ca8d;font-size:13px;line-height:1.6}.okbox{margin-top:15px;color:var(--ok);font-size:13px}.err{margin-top:15px;color:var(--danger);font-size:13px;white-space:pre-wrap}.drop{border:1px dashed #24505e;border-radius:15px;padding:22px;text-align:center;color:var(--muted);margin-bottom:15px}.drop input{display:none}.drop label{display:inline-block;color:var(--cyan);cursor:pointer;margin:0}.project{display:flex;justify-content:space-between;align-items:center;gap:15px;padding:17px;border:1px solid var(--line);border-radius:15px;background:#071017;margin-top:10px}.badge{font-size:11px;padding:6px 9px;border-radius:999px;background:#0d2920;color:var(--ok);border:1px solid #174d38}@media(max-width:700px){main{padding-top:28px}.grid,.cards{grid-template-columns:1fr}h1{letter-spacing:-2px;margin-top:40px}.top{align-items:flex-start}.status{display:none}}
 </style>
 </head>
 <body>
 <main>
-<div class="brand"><i class="dot"></i>AQUA DOMAINS</div>
+<div class="top"><div class="brand"><i class="dot"></i>AQUA DOMAINS</div><div class="status" id="status"><i></i>Vercel wird geprüft…</div></div>
+
 <section class="hero">
-<h1>Subdomains.<br><span style="color:var(--cyan)">Clean.</span></h1>
-<p>Erstelle schnell eine Subdomain-Adresse für eine Domain, die dir gehört, und nutze sie anschließend mit deinem Vercel-Projekt.</p>
+<h1>Build.<br><span style="color:var(--cyan)">Deploy.</span></h1>
+<p>Ein eigenes kleines Hosting-Dashboard: Projekte anlegen, Code hochladen, GitHub nutzen und echte Domains mit deinem Vercel-Projekt verbinden.</p>
 </section>
-<section class="panel">
-<div class="field"><label for="name">SUBDOMAIN</label><input id="name" maxlength="63" placeholder="deinapp" autocomplete="off"></div>
-<div class="field"><label for="domain">DEINE BASIS-DOMAIN</label><div class="grid"><input id="domain" placeholder="aqua.de" autocomplete="off"><select id="tld"><option value="">TLD auswählen</option><option>.de</option><option>.com</option><option>.org</option></select></div></div>
-<button id="generate">Subdomain erstellen</button>
-<div class="result" id="result"><div class="domain" id="output"></div><button class="copy" id="copy">Adresse kopieren</button></div>
-<div class="note">AQUA Domains erzeugt die Adresse nur. Ein echter DNS-Eintrag kann ausschließlich für eine Domain erstellt werden, die du kontrollierst. Für Vercel musst du die Domain anschließend in deinem Vercel-Projekt hinzufügen und DNS beim Domain-Anbieter konfigurieren.</div>
-</section>
-<div class="features">
-<div class="feature"><b>⚡ Schnell</b><span>Subdomain in Sekunden zusammenbauen.</span></div>
-<div class="feature"><b>🔒 Eigene Domains</b><span>Keine fremden Domains automatisch verändern.</span></div>
-<div class="feature"><b>▲ Vercel-ready</b><span>Für eigene Vercel-Projekte gedacht.</span></div>
+
+<div class="tabs">
+<button class="tab active" data-view="project">Projekt</button>
+<button class="tab" data-view="domain">Domain</button>
+<button class="tab" data-view="guide">Setup</button>
 </div>
+
+<section class="panel">
+<div class="view active" id="project">
+<h2>Neues Projekt</h2>
+<p class="small">Für eine echte Veröffentlichung brauchst du eine Vercel-Verbindung. HTML/CSS/JS kann direkt deployed werden. Python muss für Vercel passend als Function/kompatibler Web-Service aufgebaut sein.</p>
+<div class="grid">
+<div class="field"><label>PROJEKTNAME</label><input id="projectName" placeholder="mein-projekt"></div>
+<div class="field"><label>GITHUB REPOSITORY (OPTIONAL)</label><input id="github" placeholder="username/repository"></div>
+</div>
+<div class="drop"><label for="files">DATEIEN AUSWÄHLEN</label><input id="files" type="file" multiple accept=".html,.css,.js,.json,.py,.txt,.md"><div id="fileText" class="small" style="margin-top:8px">oder ein GitHub-Projekt verbinden</div></div>
+<div class="actions"><button id="prepare">Projekt vorbereiten</button><button class="secondary" id="clear">Zurücksetzen</button></div>
+<div id="projectMsg"></div>
+<div class="project"><div><b>Production Hosting</b><div class="small">Vercel • automatische Deployments möglich</div></div><span class="badge">READY</span></div>
+</div>
+
+<div class="view" id="domain">
+<h2>Echte Subdomain</h2>
+<p class="small">Hier wird die Domain tatsächlich an dein Vercel-Projekt übergeben. Dafür müssen VERCEL_TOKEN und VERCEL_PROJECT_ID im Server-Environment gesetzt sein und du musst die Domain kontrollieren.</p>
+<div class="grid">
+<div class="field"><label>SUBDOMAIN</label><input id="sub" placeholder="meinapp"></div>
+<div class="field"><label>BASIS-DOMAIN</label><input id="base" placeholder="deine-domain.de"></div>
+</div>
+<button id="addDomain">Subdomain mit Vercel verbinden</button>
+<div id="domainMsg"></div>
+</div>
+
+<div class="view" id="guide">
+<h2>Einmaliges Setup</h2>
+<div class="cards">
+<div class="card"><b>01 · Vercel</b><span>Verbinde dieses Repository mit Vercel. Pushes auf <code>main</code> können anschließend automatisch deployen.</span></div>
+<div class="card"><b>02 · Secrets</b><span>Setze VERCEL_TOKEN und VERCEL_PROJECT_ID ausschließlich als Vercel Environment Variables.</span></div>
+<div class="card"><b>03 · Domain</b><span>Füge deine eigene Basis-Domain bei Vercel hinzu und richte die von Vercel verlangten DNS-Einträge ein.</span></div>
+</div>
+<div class="notice">AQUA kann keine fremde Domain übernehmen. Für eine echte Subdomain wie <b>app.deine-domain.de</b> brauchst du die Kontrolle über <b>deine-domain.de</b>. Danach kann die API die Subdomain deinem Projekt zuordnen.</div>
+<p class="small">Vercel unterstützt Custom Domains und auch Wildcard-Domains. Für größere Hosting-Plattformen gibt es inzwischen Vercel for Platforms mit programmatischer Domain- und Deployment-Verwaltung.</p>
+</div>
+</section>
 </main>
+
 <script>
 const $=id=>document.getElementById(id);
-function clean(v){return v.trim().toLowerCase().replace(/^https?:\/\//,'').split('/')[0]}
-$('generate').onclick=()=>{
- let n=$('name').value.trim().toLowerCase().replace(/[^a-z0-9-]/g,'-').replace(/^-+|-+$/g,'');
- let d=clean($('domain').value); let t=$('tld').value;
- if(!n||!d){alert('Bitte Subdomain und Basis-Domain eingeben.');return}
- if(!d.includes('.')&&t)d+=t;
- if(!d.includes('.')){alert('Bitte eine gültige Basis-Domain eingeben, z. B. aqua.de.');return}
- const full='https://'+n+'.'+d;
- $('output').textContent=full;$('result').classList.add('show');
+document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>{
+ document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));
+ document.querySelectorAll(".view").forEach(x=>x.classList.remove("active"));
+ b.classList.add("active"); $(b.dataset.view).classList.add("active");
+});
+$("files").onchange=()=>{const n=$("files").files.length;$("fileText").textContent=n? n+" Datei(en) ausgewählt":"oder ein GitHub-Projekt verbinden"};
+$("clear").onclick=()=>{["projectName","github"].forEach(id=>$(id).value="");$("files").value="";$("fileText").textContent="oder ein GitHub-Projekt verbinden";$("projectMsg").innerHTML=""};
+$("prepare").onclick=()=>{
+ const name=$("projectName").value.trim().toLowerCase().replace(/[^a-z0-9-]/g,"-").replace(/^-+|-+$/g,"");
+ if(!name){$("projectMsg").innerHTML='<div class="err">Bitte einen Projektnamen eingeben.</div>';return}
+ $("projectMsg").innerHTML='<div class="okbox">Projekt "'+name+'" ist vorbereitet. Für den echten Deployment-Schritt muss die Vercel-Verbindung eingerichtet sein.</div>';
 };
-$('copy').onclick=async()=>{
- try{await navigator.clipboard.writeText($('output').textContent);$('copy').textContent='Kopiert ✓';setTimeout(()=>$('copy').textContent='Adresse kopieren',1200)}
- catch(e){}
+(async()=>{
+ try{const r=await fetch("/api/status");const d=await r.json();if(d.vercelConfigured){$("status").classList.add("ok");$("status").innerHTML="<i></i>Vercel verbunden"}else{$("status").innerHTML="<i></i>Vercel Setup fehlt"}}catch(e){$("status").innerHTML="<i></i>API nicht erreichbar"}
+})();
+$("addDomain").onclick=async()=>{
+ const sub=$("sub").value.trim().toLowerCase().replace(/[^a-z0-9-]/g,"-").replace(/^-+|-+$/g,"");
+ const base=$("base").value.trim().toLowerCase().replace(/^https?:\/\//,"").split("/")[0];
+ if(!sub||!base){$("domainMsg").innerHTML='<div class="err">Subdomain und Basis-Domain ausfüllen.</div>';return}
+ $("domainMsg").innerHTML='<div class="small">Vercel wird kontaktiert…</div>';
+ try{
+   const r=await fetch("/api/domain",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({domain:sub+"."+base})});
+   const d=await r.json();
+   if(!r.ok) throw new Error(d.error||"Fehler");
+   $("domainMsg").innerHTML='<div class="result show"><div class="domain">https://'+d.domain+'</div><div class="okbox">'+d.message+'</div></div>';
+ }catch(e){$("domainMsg").innerHTML='<div class="err">'+e.message+'</div>'}
 };
 </script>
 </body>
