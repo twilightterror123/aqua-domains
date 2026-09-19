@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AQUA Domains</title>
+<meta name="description" content="AQUA Domains – Subdomain Manager für eigene Domains und Vercel-Projekte.">
+<style>
+:root{--bg:#04080c;--panel:#091119;--line:#15303d;--cyan:#00e5ff;--text:#ecfbff;--muted:#78919e}
+*{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(900px 500px at 50% -10%,#07343d 0,transparent 65%),var(--bg);color:var(--text);font:15px Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+main{width:min(980px,calc(100% - 32px));margin:auto;padding:70px 0}.brand{display:inline-flex;align-items:center;gap:10px;color:var(--cyan);font-weight:900;letter-spacing:4px;font-size:13px}.dot{width:9px;height:9px;border-radius:50%;background:var(--cyan);box-shadow:0 0 22px var(--cyan)}
+h1{font-size:clamp(42px,8vw,78px);line-height:.95;margin:18px 0 14px;letter-spacing:-4px}p{color:var(--muted);line-height:1.7}.hero p{max-width:680px;font-size:17px}.panel{margin-top:35px;padding:26px;border:1px solid var(--line);border-radius:24px;background:linear-gradient(180deg,#0a141c,#071017);box-shadow:0 25px 80px #0009}.grid{display:grid;grid-template-columns:1fr 150px;gap:12px}.field{margin-bottom:18px}label{display:block;margin-bottom:8px;font-weight:700;font-size:13px;color:#b7d5dd}input,select{width:100%;border:1px solid #1a3b49;background:#050c12;color:var(--text);padding:15px;border-radius:12px;font:inherit;outline:0}input:focus,select:focus{border-color:var(--cyan);box-shadow:0 0 0 3px #00e5ff14}button{width:100%;padding:15px;border:0;border-radius:12px;background:var(--cyan);color:#001014;font-weight:900;font-size:15px;cursor:pointer}button:hover{filter:brightness(1.08);transform:translateY(-1px)}.result{display:none;margin-top:20px;padding:18px;border:1px solid #1b5665;border-radius:15px;background:#06141a}.result.show{display:block}.domain{font-size:23px;color:var(--cyan);word-break:break-all}.copy{margin-top:12px;background:#10232c;color:#dffaff;border:1px solid #214653}.note{margin-top:22px;padding:15px;border-radius:14px;border:1px solid #3b3518;background:#151408;color:#d6ca8d;font-size:13px;line-height:1.6}.features{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}.feature{padding:16px;border:1px solid var(--line);border-radius:15px;background:#071017}.feature b{display:block;margin-bottom:5px}.feature span{color:var(--muted);font-size:13px}@media(max-width:650px){main{padding:40px 0}.grid,.features{grid-template-columns:1fr}h1{letter-spacing:-2px}}
+</style>
+</head>
+<body>
+<main>
+<div class="brand"><i class="dot"></i>AQUA DOMAINS</div>
+<section class="hero">
+<h1>Subdomains.<br><span style="color:var(--cyan)">Clean.</span></h1>
+<p>Erstelle schnell eine Subdomain-Adresse für eine Domain, die dir gehört, und nutze sie anschließend mit deinem Vercel-Projekt.</p>
+</section>
+<section class="panel">
+<div class="field"><label for="name">SUBDOMAIN</label><input id="name" maxlength="63" placeholder="deinapp" autocomplete="off"></div>
+<div class="field"><label for="domain">DEINE BASIS-DOMAIN</label><div class="grid"><input id="domain" placeholder="aqua.de" autocomplete="off"><select id="tld"><option value="">TLD auswählen</option><option>.de</option><option>.com</option><option>.org</option></select></div></div>
+<button id="generate">Subdomain erstellen</button>
+<div class="result" id="result"><div class="domain" id="output"></div><button class="copy" id="copy">Adresse kopieren</button></div>
+<div class="note">AQUA Domains erzeugt die Adresse nur. Ein echter DNS-Eintrag kann ausschließlich für eine Domain erstellt werden, die du kontrollierst. Für Vercel musst du die Domain anschließend in deinem Vercel-Projekt hinzufügen und DNS beim Domain-Anbieter konfigurieren.</div>
+</section>
+<div class="features">
+<div class="feature"><b>⚡ Schnell</b><span>Subdomain in Sekunden zusammenbauen.</span></div>
+<div class="feature"><b>🔒 Eigene Domains</b><span>Keine fremden Domains automatisch verändern.</span></div>
+<div class="feature"><b>▲ Vercel-ready</b><span>Für eigene Vercel-Projekte gedacht.</span></div>
+</div>
+</main>
+<script>
+const $=id=>document.getElementById(id);
+function clean(v){return v.trim().toLowerCase().replace(/^https?:\/\//,'').split('/')[0]}
+$('generate').onclick=()=>{
+ let n=$('name').value.trim().toLowerCase().replace(/[^a-z0-9-]/g,'-').replace(/^-+|-+$/g,'');
+ let d=clean($('domain').value); let t=$('tld').value;
+ if(!n||!d){alert('Bitte Subdomain und Basis-Domain eingeben.');return}
+ if(!d.includes('.')&&t)d+=t;
+ if(!d.includes('.')){alert('Bitte eine gültige Basis-Domain eingeben, z. B. aqua.de.');return}
+ const full='https://'+n+'.'+d;
+ $('output').textContent=full;$('result').classList.add('show');
+};
+$('copy').onclick=async()=>{
+ try{await navigator.clipboard.writeText($('output').textContent);$('copy').textContent='Kopiert ✓';setTimeout(()=>$('copy').textContent='Adresse kopieren',1200)}
+ catch(e){}
+};
+</script>
+</body>
+</html>
